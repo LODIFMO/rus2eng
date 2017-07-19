@@ -1,0 +1,11 @@
+{
+  "name": "rus2eng-sparql",
+  "version": "0.0.1",
+  "description": "A translator keywords from rus to eng with sparql-endpoints",
+  "main": "app.js",
+  "author": "M. Navrotskiy (m.navrotskiy@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
