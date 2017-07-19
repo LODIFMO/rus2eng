@@ -6,6 +6,7 @@
   "author": "M. Navrotskiy (m.navrotskiy@gmail.com)",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "sparql": "^0.1.3"
   }
 }
