@@ -1,8 +1,14 @@
+'use strict'
+
 const express = require('express')
 const app = express()
 const url = require('url')
 const sparql = require('sparql')
 const Promise = require('promise')
+const mongoose = require('mongoose')
+
+const keywordSchema = require('./models/keyword')
+const Keyword = mongoose.model('Keyword')
 
 const dbpedia = 'http://dbpedia.org/sparql'
 
@@ -13,7 +19,14 @@ app.get('/', function(req, res) {
   const keyword = query.keyword
 
   translator(keyword).then(function (json) {
-    res.send(json)
+    let term = new Keyword({
+      rusLabel: keyword,
+      engLabel: json.results.bindings[0].englabel.value
+    })
+    term.save(function (err, term) {
+      if (err) return console.error(err)
+      res.send(term)
+    })
   }).catch(function (error) {
     res.send(error)
   })
@@ -22,9 +35,16 @@ app.get('/', function(req, res) {
 const port = process.env.PORT || 3000
 const host = process.env.IP || '0.0.0.0'
 
-app.listen(port, host, function () {
-  console.log(`Example app listening on port: ${port} and host: ${host}`)
-})
+connect()
+  .on('error', console.log)
+  .on('disconnected', connect)
+  .once('open', listen)
+
+function listen() {
+  app.listen(port, host, function () {
+    console.log(`Example app listening on port: ${port} and host: ${host}`)
+  })
+}
 
 function translator (keyword) {
   const queryString = `
@@ -43,4 +63,8 @@ function translator (keyword) {
       else resolve(res)
     })
   })
+}
+
+function connect() {
+  return mongoose.connect('mongodb://localhost/rus2eng').connection
 }

@@ -7,14 +7,16 @@ const Schema = mongoose.Schema
  * Keyword schema
  */
 const KeywordSchema = new Schema({
-  rusLabel: { type: String, default: '' },
-  engLabel: { type: String, default: '' }
+  rusLabel: {
+    type: String,
+    default: '',
+    required: true
+  },
+  engLabel: {
+    type: String,
+    default: '',
+    required: true
+  }
 })
-
-/**
- * Validations
- */
-KeywordSchema.path('rusLabel').required(true, 'Russian keyword cannot be blank')
-KeywordSchema.path('engLabel').requried(true, 'English keyword cannot be blank')
 
 mongoose.model('Keyword', KeywordSchema)
