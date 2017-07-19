@@ -1,7 +1,10 @@
 const express = require('express')
 const app = express()
+const url = require('url')
 
 app.get('/', function(req, res) {
+  const query = url.parse(req.url, true).query
+  console.log(query.keyword)
   res.send('Hello SPARQL!')
 })
 
