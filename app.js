@@ -4,7 +4,9 @@ const url = require('url')
 const sparql = require('sparql')
 const Promise = require('promise')
 
-var client = new sparql.Client('http://dbpedia.org/sparql')
+const dbpedia = 'http://dbpedia.org/sparql'
+
+var client = new sparql.Client(dbpedia)
 
 app.get('/', function(req, res) {
   const query = url.parse(req.url, true).query
@@ -35,7 +37,7 @@ function translator (keyword) {
       FILTER ( lang(?englabel) = 'en' )
     } LIMIT 1
   `
-  return new Promise(function(keyword, resolve, reject) {
+  return new Promise(function(resolve, reject) {
     client.query(queryString, function (err, res) {
       if (err) reject(err)
       else resolve(res)
